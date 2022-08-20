@@ -100,3 +100,38 @@ contract newContract {
 
 
 
+
+
+
+
+// Bank Contract
+
+
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.7.0 <0.9.0;
+
+
+contract Bank{
+
+    address owner= 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
+
+    mapping (address => uint256) accountDataBase;
+
+    function recieveMoney() public payable {
+    accountDataBase[msg.sender] = msg.value;
+    }
+
+    function getBalance() public view returns(uint256)  {
+    return accountDataBase[msg.sender];
+    }
+
+   function withdrawEther(address payable _payee) public {
+    require(msg.sender == owner , "not Allowed");
+    require( accountDataBase[_payee] > 0, "zero balance");
+    uint256 amount = accountDataBase[_payee];
+    _payee.transfer(amount);
+    }
+
+}
+
+
